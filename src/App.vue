@@ -1,47 +1,24 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
-import ProjectsList from './components/projects/ProjectsList.vue';
-import axios from 'axios';
-const endpoint = 'http://localhost:8000/api/projects/'
+import AppLoader from './components/AppLoader.vue';
+import { store } from './data/store';
 
 export default {
   name: "Boolfolio",
   components: {
     AppHeader,
-    ProjectsList,
   },
-
   data: () => ({
-    projects: [],
-    isLoading: false,
+    store,
   }),
-
-  methods: {
-    fetchProjects() {
-      this.isLoading = true;
-      axios.get(endpoint).then(res => {
-        this.projects = res.data;
-      }).catch(err => {
-        console.error(err);
-      }).then(() => {
-        this.isLoading = false;
-      })
-    }
-  },
-
-  created() {
-    this.fetchProjects();
-  }
 };
 </script>
 
 <template>
   <AppHeader />
   <main class="container pt-4">
-    <h1>Boolfolio</h1>
-    <AppLoader v-if="isLoading" />
-    <ProjectsList :projects="projects" />
-
+    <AppLoader v-if="store.isLoading" />
+    <RouterView />
   </main>
 
 </template>

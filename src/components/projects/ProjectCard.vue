@@ -2,7 +2,8 @@
 export default {
     name: "ProjectCard",
     props: {
-        project: Object
+        project: Object,
+        isDetail: Boolean,
     },
 
     computed: {
@@ -31,18 +32,21 @@ export default {
 
 <template>
     <div class="card my-3">
-        <div class="card-header">
+        <div class="card-header d-flex align-items-center justify-content-between">
             <h2>{{ project.title }}</h2>
+            <RouterLink v-if="!isDetail" class="btn btn-sm btn-primary"
+                :to="{ name: 'project-detail', params: { slug: project.slug } }">Open
+            </RouterLink>
         </div>
         <div class="card-body clearfix">
             <img v-if="project.image" :src="project.image" :alt="project.title" class="img-fluid float-start me-3">
-            <p>{{ abstract }}</p>
+            <p>{{ isDetail ? project.content : abstract }}</p>
         </div>
         <div class="card-footer d-flex justify-content-between">
             <div>
-                <address class="mb-2">By: Anonimo</address>
-                <span class="badge" :style="{ backgroundColor: project.type ? project.type.color : '' }">
-                    {{ project.type ? project.type.label : 'Nessun tipo' }}
+                <address class="mb-2">By: Anonymous</address>
+                <span class="badge" :style="{ backgroundColor: project.type?.color }">
+                    {{ project.type ? project.type.label : 'Type None' }}
                 </span>
             </div>
 
