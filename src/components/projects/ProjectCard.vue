@@ -1,4 +1,6 @@
 <script>
+import { RouterLink } from 'vue-router';
+
 export default {
     name: "ProjectCard",
     props: {
@@ -45,9 +47,12 @@ export default {
         <div class="card-footer d-flex justify-content-between">
             <div>
                 <address class="mb-2">By: Anonymous</address>
-                <span class="badge" :style="{ backgroundColor: project.type?.color }">
-                    {{ project.type ? project.type.label : 'Type None' }}
-                </span>
+
+                <RouterLink v-if="project.type" :to="{ name: 'type-projects', params: { slug: project.type.slug } }">
+                    <span class="badge" :style="{ backgroundColor: project.type?.color }">
+                        {{ project.type.label }}
+                    </span>
+                </RouterLink>
             </div>
 
             <small>Pubblicato il {{ pubblicationDate }}</small>
